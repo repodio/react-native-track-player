@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import TrackPlayer, { usePlaybackState } from "react-native-track-player";
+import TrackPlayer, { usePlaybackState, useTrackPlayerProgress } from "react-native-track-player";
 
 import Player from "../components/Player";
 import playlistData from "../data/playlist.json";
@@ -8,6 +8,7 @@ import localTrack from "../resources/pure.m4a";
 
 export default function PlaylistScreen() {
   const playbackState = usePlaybackState();
+  const trackPlayerProcess = useTrackPlayerProgress();
 
   useEffect(() => {
     setup();
@@ -67,7 +68,12 @@ export default function PlaylistScreen() {
         onPrevious={skipToPrevious}
         onTogglePlayback={togglePlayback}
       />
-      <Text style={styles.state}>{getStateName(playbackState)}</Text>
+      <View style={styles.state}>
+        <Text>{getStateName(playbackState)}</Text>
+        <Text>Current: {trackPlayerProcess.position | 0} sec</Text>
+        <Text>Buffered: {trackPlayerProcess.bufferedPosition | 0} sec</Text>
+        <Text>Duration: {trackPlayerProcess.duration | 0} sec</Text>
+      </View>
     </View>
   );
 }
