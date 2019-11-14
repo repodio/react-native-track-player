@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import TrackPlayer, { usePlaybackState, useTrackPlayerProgress } from "react-native-track-player";
+import TrackPlayer from "react-native-track-player";
 
 import Player from "../components/Player";
 import playlistData from "../data/playlist.json";
 import localTrack from "../resources/pure.m4a";
 
-export default function LandingScreen() {
-  const playbackState = usePlaybackState();
-  const trackPlayerProcess = useTrackPlayerProgress();
+export default function PlaylistScreen() {
+  const playbackState = TrackPlayer.usePlaybackState();
+  const trackPlayerProcess = TrackPlayer.useTrackPlayerProgress();
 
   useEffect(() => {
     TrackPlayer.setupPlayer();
@@ -73,7 +73,7 @@ export default function LandingScreen() {
   );
 }
 
-LandingScreen.navigationOptions = {
+PlaylistScreen.navigationOptions = {
   title: "Playlist Example"
 };
 
