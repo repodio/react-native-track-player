@@ -322,6 +322,16 @@ public class MusicModule extends ReactContextBaseJavaModule implements ServiceCo
     }
 
     @ReactMethod
+    public void updateRateAndPlay(final float rate, final Promise callback) {
+        waitForConnection(() -> {
+            ExoPlayback playback = binder.getPlayback();
+            playback.setRate(rate);
+            playback.play();
+            callback.resolve(null);
+        });
+    }
+
+    @ReactMethod
     public void pause(final Promise callback) {
         waitForConnection(() -> {
             binder.getPlayback().pause();

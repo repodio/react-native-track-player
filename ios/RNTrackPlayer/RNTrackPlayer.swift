@@ -399,6 +399,16 @@ public class RNTrackPlayer: RCTEventEmitter {
         resolve(NSNull())
     }
     
+    @objc(updateRateAndPlay:resolver:rejecter:)
+    public func updateRateAndPlay(rate: Float, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        print("Starting/Resuming playback")
+        try? AVAudioSession.sharedInstance().setActive(true)
+        print("Setting rate to \(rate)")
+        player.rate = rate
+        player.play()
+        resolve(NSNull())
+    }
+    
     @objc(pause:rejecter:)
     public func pause(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         print("Pausing playback")
