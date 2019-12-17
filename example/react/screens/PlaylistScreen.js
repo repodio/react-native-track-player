@@ -33,19 +33,23 @@ export default function PlaylistScreen() {
   }
 
   async function togglePlayback() {
+    console.log('togglePlayback 1')
     const currentTrack = await TrackPlayer.getCurrentTrack();
+    console.log('current track: ', currentTrack)
+    console.log('togglePlayback 2')
     if (currentTrack == null) {
       await TrackPlayer.reset();
       await TrackPlayer.add(playlistData);
-      await TrackPlayer.add({
-        id: "local-track",
-        url: localTrack,
-        title: "Pure (Demo)",
-        artist: "David Chavez",
-        artwork: "https://i.picsum.photos/id/500/200/200.jpg",
-        duration: 28
-      });
-      await TrackPlayer.play();
+      // await TrackPlayer.add({
+      //   id: "local-track",
+      //   url: localTrack,
+      //   title: "Pure (Demo)",
+      //   artist: "David Chavez",
+      //   artwork: "https://picsum.photos/200"
+      //   duration: 28
+      // });
+      // await TrackPlayer.play();
+      TrackPlayer.play();
     } else {
       if (playbackState === TrackPlayer.STATE_PAUSED) {
         await TrackPlayer.play();
