@@ -195,6 +195,7 @@ public class RNTrackPlayer: RCTEventEmitter {
                     "track": data.trackId,
                     "position": data.trackPosition,
                     "nextTrack": data.nextTrackId,
+                    "trackFinished": true,
                     ])
             }
         }
