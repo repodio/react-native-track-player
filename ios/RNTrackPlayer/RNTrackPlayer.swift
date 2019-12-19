@@ -177,6 +177,31 @@ public class RNTrackPlayer: RCTEventEmitter {
         
         
         // setup event listeners
+        player.event.stateChange.addListener(self) { [weak self] state in
+            self?.sendEvent(withName: "playback-state", body: ["state": state.rawValue])
+        }
+        
+        player.event.fail.addListener(self) { [weak self] error in
+            self?.sendEvent(withName: "playback-error", body: ["error": error?.localizedDescription])
+        }
+        
+        player.event.playbackEnd.addListener(self) { [weak self] data in
+            guard let `self` = self else { return }
+                        
+            if data.reason == .playedUntilEnd && data.nextTrackId == nil {
+                self.sendEvent(withName: "playback-queue-ended", body: [
+                    "track": data.trackId,
+                    "position": data.trackPosition,
+                    ])
+            } else if data.reason == .playedUntilEnd {
+               self.sendEvent(withName: "playback-track-changed", body: [
+                    "track": data.trackId,
+                    "position": data.trackPosition,
+                    "nextTrack": data.nextTrackId,
+                    ])
+            }
+        }
+        
         player.remoteCommandController.handleChangePlaybackPositionCommand = { [weak self] event in
             if let event = event as? MPChangePlaybackPositionCommandEvent {
                 self?.sendEvent(withName: "remote-seek", body: ["position": event.positionTime])
