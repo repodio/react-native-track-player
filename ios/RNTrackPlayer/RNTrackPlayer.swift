@@ -182,19 +182,19 @@ public class RNTrackPlayer: RCTEventEmitter {
             self?.sendEvent(withName: "playback-error", body: ["error": error?.localizedDescription])
         }
         
-        player.event.playbackEnd.addListener(self) { [weak self] reason in
+        player.event.playbackEnd.addListener(self) { [weak self] data in
             guard let `self` = self else { return }
-
-            if reason == .playedUntilEnd && self.player.nextItems.count == 0 {
+                        
+            if data.reason == .playedUntilEnd && data.nextTrackId == nil {
                 self.sendEvent(withName: "playback-queue-ended", body: [
-                    "track": (self.player.currentItem as? Track)?.id,
-                    "position": self.player.currentTime,
+                    "track": data.trackId,
+                    "position": data.trackPosition,
                     ])
-            } else if reason == .playedUntilEnd {
+            } else if data.reason == .playedUntilEnd {
                self.sendEvent(withName: "playback-track-changed", body: [
-                    "track": (self.player.currentItem as? Track)?.id,
-                    "position": self.player.currentTime,
-                    "nextTrack": (self.player.nextItems.first as? Track)?.id,
+                    "track": data.trackId,
+                    "position": data.trackPosition,
+                    "nextTrack": data.nextTrackId,
                     ])
             }
         }
