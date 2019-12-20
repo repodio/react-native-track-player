@@ -170,7 +170,9 @@ public class LocalPlayback extends ExoPlayback<SimpleExoPlayer> {
         super.reset();
         resetQueue();
 
-        manager.onTrackUpdate(track, position, null);
+        Log.d(Utils.LOG, "onTrackUpdate from reset");
+        // TODO (Thorben): Figure if this shoudl still be fired - seems it's not valid after reset
+//        manager.onTrackUpdate(track, position, null, false);
     }
 
     @Override
