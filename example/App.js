@@ -7,11 +7,11 @@ import PlaylistScreen from "./react/screens/PlaylistScreen";
 const AppNavigator = createStackNavigator(
   {
     Landing: {
-      screen: LandingScreen
+      screen: LandingScreen,
     },
     Playlist: {
-      screen: PlaylistScreen
-    }
+      screen: PlaylistScreen,
+    },
   },
   { initialRouteName: "Landing" }
 );

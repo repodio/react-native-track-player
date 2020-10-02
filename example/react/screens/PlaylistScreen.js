@@ -7,8 +7,8 @@ import playlistData from "../data/playlist.json";
 import localTrack from "../resources/pure.m4a";
 
 export default function PlaylistScreen() {
-  const playbackState = usePlaybackState();
-  const trackPlayerProcess = useTrackPlayerProgress();
+  const playbackState = TrackPlayer.usePlaybackState();
+  const trackPlayerProcess = TrackPlayer.useTrackPlayerProgress();
 
   useEffect(() => {
     setup();
@@ -23,20 +23,20 @@ export default function PlaylistScreen() {
         TrackPlayer.CAPABILITY_PAUSE,
         TrackPlayer.CAPABILITY_SKIP_TO_NEXT,
         TrackPlayer.CAPABILITY_SKIP_TO_PREVIOUS,
-        TrackPlayer.CAPABILITY_STOP
+        TrackPlayer.CAPABILITY_STOP,
       ],
       compactCapabilities: [
         TrackPlayer.CAPABILITY_PLAY,
-        TrackPlayer.CAPABILITY_PAUSE
-      ]
+        TrackPlayer.CAPABILITY_PAUSE,
+      ],
     });
   }
 
   async function togglePlayback() {
-    console.log('togglePlayback 1')
+    console.log("togglePlayback 1");
     const currentTrack = await TrackPlayer.getCurrentTrack();
-    console.log('current track: ', currentTrack)
-    console.log('togglePlayback 2')
+    console.log("current track: ", currentTrack);
+    console.log("togglePlayback 2");
     if (currentTrack == null) {
       await TrackPlayer.reset();
       await TrackPlayer.add(playlistData);
@@ -83,7 +83,7 @@ export default function PlaylistScreen() {
 }
 
 PlaylistScreen.navigationOptions = {
-  title: "Playlist Example"
+  title: "Playlist Example",
 };
 
 function getStateName(state) {
@@ -117,17 +117,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "#F5FCFF"
+    backgroundColor: "#F5FCFF",
   },
   description: {
     width: "80%",
     marginTop: 20,
-    textAlign: "center"
+    textAlign: "center",
   },
   player: {
-    marginTop: 40
+    marginTop: 40,
   },
   state: {
-    marginTop: 20
-  }
+    marginTop: 20,
+  },
 });
