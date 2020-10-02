@@ -205,7 +205,7 @@ public class Track {
 
         } else {
             OkHttpClient client = new OkHttpClient.Builder()
-                    .addInterceptor(new ForceHttpsOnRedirectInterceptor())
+                    .addNetworkInterceptor(new ForceHttpsOnRedirectInterceptor())
                     .readTimeout(DefaultHttpDataSource.DEFAULT_READ_TIMEOUT_MILLIS, MILLISECONDS)
                     .connectTimeout(DefaultHttpDataSource.DEFAULT_CONNECT_TIMEOUT_MILLIS, MILLISECONDS)
                     .build();
