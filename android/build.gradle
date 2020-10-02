@@ -65,6 +65,7 @@ dependencies {
 
     // ExoPlayer Core
     implementation "com.google.android.exoplayer:exoplayer-core:${exoPlayerVersion}"
+    implementation "com.google.android.exoplayer:extension-okhttp:${exoPlayerVersion}"
 
     // ExoPlayer DASH
     if (dash) {

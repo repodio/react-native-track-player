@@ -8,6 +8,7 @@ import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.RatingCompat;
 import android.support.v4.media.session.MediaSessionCompat.QueueItem;
 
+import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSourceFactory;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
@@ -20,14 +21,19 @@ import com.google.android.exoplayer2.upstream.*;
 import com.google.android.exoplayer2.util.Util;
 import com.guichaguri.trackplayer.service.Utils;
 import com.guichaguri.trackplayer.service.player.LocalPlayback;
+import com.guichaguri.trackplayer.service.player.ForceHttpsOnRedirectInterceptor;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
 
 import static android.support.v4.media.MediaMetadataCompat.*;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 /**
  * @author Guichaguri
@@ -198,15 +204,12 @@ public class Track {
             ds = new DefaultDataSourceFactory(ctx, userAgent);
 
         } else {
-
-            // Creates a default http source factory, enabling cross protocol redirects
-            DefaultHttpDataSourceFactory factory = new DefaultHttpDataSourceFactory(
-                    userAgent, null,
-                    DefaultHttpDataSource.DEFAULT_CONNECT_TIMEOUT_MILLIS,
-                    DefaultHttpDataSource.DEFAULT_READ_TIMEOUT_MILLIS,
-                    true
-            );
-
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .addInterceptor(new ForceHttpsOnRedirectInterceptor())
+                    .readTimeout(DefaultHttpDataSource.DEFAULT_READ_TIMEOUT_MILLIS, MILLISECONDS)
+                    .connectTimeout(DefaultHttpDataSource.DEFAULT_CONNECT_TIMEOUT_MILLIS, MILLISECONDS)
+                    .build();
+            OkHttpDataSourceFactory factory = new OkHttpDataSourceFactory(client, userAgent);
             if(headers != null) {
                 factory.getDefaultRequestProperties().set(headers);
             }
