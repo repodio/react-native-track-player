@@ -54,4 +54,7 @@ public class MusicBinder extends Binder {
         service.stopSelf();
     }
 
+    public void isPlayerSetup(Promise promise) {
+        promise.resolve(manager.getPlayback() != null);
+    }
 }

@@ -159,6 +159,15 @@ public class MusicModule extends ReactContextBaseJavaModule implements ServiceCo
     }
 
     @ReactMethod
+    public void isPlayerSetup(final Promise promise) {
+        if (binder == null) {
+            promise.resolve(false);
+            return;
+        }
+        waitForConnection(() -> binder.isPlayerSetup(promise));
+    }
+
+    @ReactMethod
     public void destroy() {
         // Ignore if it was already destroyed
         if (binder == null && !connecting) return;
