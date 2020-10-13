@@ -307,8 +307,12 @@ public class RNTrackPlayer: RCTEventEmitter {
                                           bookmarkOptions: options["bookmarkOptions"] as? [String: Any])
         }
 
-        player.remoteCommands = remoteCommands
-        
+        // Note: This needed to be changed for when I had upgraded the swift player. This
+        // needed to be changed back to the previous code. Thus when we upgrade the player
+        // source again, this will need to be changed back.
+        player.enableRemoteCommands(remoteCommands)
+        // player.remoteCommands = remoteCommands
+
         resolve(NSNull())
     }
     
