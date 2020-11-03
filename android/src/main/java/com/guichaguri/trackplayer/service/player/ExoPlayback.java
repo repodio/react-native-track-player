@@ -1,6 +1,7 @@
 package com.guichaguri.trackplayer.service.player;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
 import androidx.annotation.NonNull;
@@ -17,6 +18,8 @@ import com.google.android.exoplayer2.metadata.id3.UrlLinkFrame;
 import com.google.android.exoplayer2.source.TrackGroup;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
+import com.google.android.exoplayer2.upstream.DataSpec;
+import com.google.android.exoplayer2.upstream.HttpDataSource;
 import com.guichaguri.trackplayer.service.MusicManager;
 import com.guichaguri.trackplayer.service.Utils;
 import com.guichaguri.trackplayer.service.models.Track;
