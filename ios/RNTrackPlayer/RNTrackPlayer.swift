@@ -182,7 +182,22 @@ public class RNTrackPlayer: RCTEventEmitter {
         }
         
         player.event.fail.addListener(self) { [weak self] error in
-            self?.sendEvent(withName: "playback-error", body: ["error": error?.localizedDescription])
+          var errorBody = [
+            "error": error?.localizedDescription
+          ]
+
+          if let origError = error as NSError? {
+            if let underlyingErrorError = origError.userInfo["NSUnderlyingError"] as? NSError {
+              if let errorCode = underlyingErrorError.userInfo["NSDescription"] as? String {
+                errorBody["errorCode"] = errorCode
+              }
+              if let errorUrl = underlyingErrorError.userInfo["NSURL"] as? NSURL {
+                errorBody["errorUrl"] = errorUrl.absoluteString
+              }
+            }
+          }
+
+          self?.sendEvent(withName: "playback-error", body: errorBody)
         }
         
         player.event.playbackEnd.addListener(self) { [weak self] data in

@@ -333,16 +333,27 @@ public abstract class ExoPlayback<T extends Player> implements EventListener, Me
     @Override
     public void onPlayerError(ExoPlaybackException error) {
         String code;
+        Bundle errorObject = new Bundle();
+        errorObject.putString("error", error.getCause().getMessage());
 
         if(error.type == ExoPlaybackException.TYPE_SOURCE) {
             code = "playback-source";
+            if (error.getCause() instanceof HttpDataSource.InvalidResponseCodeException) {
+                HttpDataSource.InvalidResponseCodeException cause =
+                        (HttpDataSource.InvalidResponseCodeException) error.getCause();
+                errorObject.putString("errorCode", String.valueOf(cause.responseCode));
+                DataSpec dataSpec = cause.dataSpec;
+                if (dataSpec != null) {
+                    errorObject.putString("errorUrl", dataSpec.uri.toString());
+                }
+            }
         } else if(error.type == ExoPlaybackException.TYPE_RENDERER) {
             code = "playback-renderer";
         } else {
             code = "playback"; // Other unexpected errors related to the playback
         }
 
-        manager.onError(code, error.getCause().getMessage());
+        manager.onError(code, errorObject);
     }
 
     @Override

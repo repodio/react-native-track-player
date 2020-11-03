@@ -246,13 +246,13 @@ public class MusicManager implements OnAudioFocusChangeListener {
         service.emit(MusicEvents.PLAYBACK_METADATA, bundle);
     }
 
-    public void onError(String code, String error) {
+    public void onError(String code, Bundle errorBundle) {
         Log.d(Utils.LOG, "onError");
-        Log.e(Utils.LOG, "Playback error: " + code + " - " + error);
+        Log.e(Utils.LOG, "Playback error: " + code + " - " + errorBundle.toString());
 
         Bundle bundle = new Bundle();
         bundle.putString("code", code);
-        bundle.putString("message", error);
+        bundle.putAll(errorBundle);
         service.emit(MusicEvents.PLAYBACK_ERROR, bundle);
     }
 
