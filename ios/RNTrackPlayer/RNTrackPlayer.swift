@@ -18,7 +18,13 @@ public class RNTrackPlayer: RCTEventEmitter {
 
     private lazy var player: RNTrackPlayerAudioPlayer = {
         let player = RNTrackPlayerAudioPlayer(reactEventEmitter: self)
-        player.bufferDuration = 1
+        // Note: Disabling setting a bufferDuration in order to see if iOS / framework
+        // handles the buffering (front and back) well enough in order for us to not
+        // tweak this. If we do tweak it, it should probably be like 75 seconds instead
+        // 1 seconds.
+        // https://developer.apple.com/documentation/avfoundation/avplayeritem/1643630-preferredforwardbufferduration
+        // https://github.com/jorgenhenrichsen/SwiftAudio/blob/09a7548f3ac90e2362faa3e27bcff6fbc75830f4/SwiftAudio/Classes/AudioPlayer.swift#L81
+        //player.bufferDuration = 1
         return player
     }()
     
