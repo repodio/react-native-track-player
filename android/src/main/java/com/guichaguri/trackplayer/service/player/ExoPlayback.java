@@ -317,7 +317,7 @@ public abstract class ExoPlayback<T extends Player> implements EventListener, Me
             if(state == PlaybackStateCompat.STATE_STOPPED) {
                 Track previous = getCurrentTrack();
                 long position = getPosition();
-                manager.onTrackUpdate(previous, position, null, false);
+                manager.onTrackUpdate(previous, position, null, previous != null);
                 manager.onEnd(previous, position);
             }
         }
