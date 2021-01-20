@@ -41,6 +41,7 @@ public class RNTrackPlayerAudioPlayer: QueuedAudioPlayer {
 				"track": (_currentItem as? Track)?.id ?? nil,
 				"position": self.currentTime,
 				"nextTrack": (newCurrentItem as? Track)?.id ?? nil,
+        "trackFinished": false,
 				])
 		}
 	}
@@ -92,6 +93,7 @@ public class RNTrackPlayerAudioPlayer: QueuedAudioPlayer {
 				"track": (self.currentItem as? Track)?.id ?? nil,
 				"position": self.currentTime,
 				"nextTrack": nil,
+        "trackFinished": true,
 				])
 
 			// fire an event for the queue ending
