@@ -32,6 +32,7 @@ public class MusicModule extends ReactContextBaseJavaModule implements ServiceCo
     private ArrayDeque<Runnable> initCallbacks = new ArrayDeque<>();
     private boolean connecting = false;
     private Bundle options;
+    private boolean hasDisconnected = false;
 
     public MusicModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -84,6 +85,7 @@ public class MusicModule extends ReactContextBaseJavaModule implements ServiceCo
     public void onServiceDisconnected(ComponentName name) {
         binder = null;
         connecting = false;
+        hasDisconnected = true;
     }
 
     /**
@@ -160,7 +162,8 @@ public class MusicModule extends ReactContextBaseJavaModule implements ServiceCo
 
     @ReactMethod
     public void isPlayerSetup(final Promise promise) {
-        if (binder == null) {
+        if (binder == null || hasDisconnected) {
+            hasDisconnected = false;
             promise.resolve(false);
             return;
         }
